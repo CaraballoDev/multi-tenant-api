@@ -1,6 +1,6 @@
-
-const app = require('express')()
-const cookieParser = require('cookie-parser')
+const app = require("express")();
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 app.use((req, res, next) =>
   cors({
@@ -8,18 +8,17 @@ app.use((req, res, next) =>
   })(req, res, next)
 );
 
-app.use(cookieParser())
+app.use(cookieParser());
 
+app.all("*", (req, res, next) => {
+  console.log(req.cookies);
 
-app.all('*', (req, res, next) => {
-    console.log(req.cookies)
+  res.json({
+    origin: req.headers.origin,
+    cookies: req.cookies,
+  });
+});
 
-    res.json({
-        origin: req.headers.origin,
-        cookies: req.cookies
-    })
-})
-
-app.listen(process.env.PORT || 3000, function() {
-    console.log(`Server listening on port ${process.env.PORT || 3000}`)
-})
+app.listen(process.env.PORT || 3000, function () {
+  console.log(`Server listening on port ${process.env.PORT || 3000}`);
+});

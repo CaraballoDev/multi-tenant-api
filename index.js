@@ -5,6 +5,7 @@ const cors = require("cors");
 app.use((req, res, next) =>
   cors({
     origin: process.env.CORS_ORIGIN?.split(",") ?? req.headers.origin,
+    credentials: true,
   })(req, res, next)
 );
 
@@ -14,7 +15,7 @@ app.all("*", (req, res, next) => {
   console.log(req.cookies);
 
   res.json({
-    origin: req.headers.origin,
+    host: req.headers.host,
     cookies: req.cookies,
   });
 });
